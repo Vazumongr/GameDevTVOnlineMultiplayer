@@ -1,0 +1,4 @@
+﻿BaseMenu.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+  SteamworksExample.vcxproj -> C:\Users\troy\Documents\Repositories\Githubslabs\GameDevTVOnlineMultiplayer\sdk\steamworksexample\.\Debug\SteamworksExample.exe
+          1 file(s) copied.
+          1 file(s) copied.
