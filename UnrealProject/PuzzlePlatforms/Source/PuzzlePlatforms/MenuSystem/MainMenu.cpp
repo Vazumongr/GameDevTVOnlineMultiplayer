@@ -3,8 +3,16 @@
 
 #include "MainMenu.h"
 #include "Components/WidgetSwitcher.h"
-#include "Components/EditableTextBox.h"
+#include "PuzzlePlatforms/MenuSystem/ServerRow.h"
+#include "Components/TextBlock.h"
 
+UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
+{
+    ConstructorHelpers::FClassFinder<UUserWidget> ServerRowBPClass(TEXT("/Game/MenuSystem/WBP_ServerRow"));
+    if(!ensure(ServerRowBPClass.Class != nullptr)) return;
+    
+    ServerRowClass = ServerRowBPClass.Class;
+}
 
 bool UMainMenu::Initialize()
 {
@@ -34,6 +42,23 @@ void UMainMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
     TearDown();
 }
 
+void UMainMenu::SetServerList(TArray<FString> ServerNames)
+{
+    UWorld* World = this->GetWorld();
+    ensure(World);
+
+    ServerList->ClearChildren();
+    
+    for(const FString& ServerName : ServerNames)
+    {
+        UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
+        ensure(ServerRow);
+        ServerRow->ServerName->SetText(FText::FromString(ServerName));
+        ServerList->AddChild(ServerRow);
+    }
+    
+}
+
 void UMainMenu::Host()
 {
     if(!ensure(MenuInterface)) return;
@@ -45,6 +70,8 @@ void UMainMenu::OpenJoinMenu()
     if(ensure(JoinMenu) && ensure(MenuSwitcher))
     {
         MenuSwitcher->SetActiveWidget(JoinMenu);
+        if(ensure(MenuInterface)) MenuInterface->RefreshServerList();
+        
     }
         
 }
@@ -59,12 +86,12 @@ void UMainMenu::GoBack()
 
 void UMainMenu::ConnectToGame()
 {
-    if(!ensure(InputIPBox)) return;
-    
-    FString IPAddress = InputIPBox->GetText().ToString();
-    
-    if(ensure(MenuInterface))
-        MenuInterface->Join(IPAddress);
+    if(MenuInterface != nullptr)
+    {
+        // if(!ensure(IPAddressField != nullptr)) return;
+        // const FString& Address = IPAddressField->GetText().ToString();
+        MenuInterface->Join(" ");
+    }
 }
 
 void UMainMenu::QuitGame()

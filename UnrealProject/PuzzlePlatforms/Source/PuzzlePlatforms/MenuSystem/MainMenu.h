@@ -16,9 +16,13 @@ class PUZZLEPLATFORMS_API UMainMenu : public UMenuWidget
 {
 	GENERATED_BODY()
 public:
+	UMainMenu(const FObjectInitializer& ObjectInitializer);
+	
 	virtual bool Initialize() override;
 	
 	virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld) override;
+
+	void SetServerList(TArray<FString> ServerNames);
 
 protected:
     // Buttons
@@ -35,15 +39,18 @@ protected:
 
     // Menus
 	UPROPERTY(meta = (BindWidget))
-	class UWidgetSwitcher* MenuSwitcher = nullptr;
+	class UWidgetSwitcher* MenuSwitcher;
 	UPROPERTY(meta = (BindWidget))
-    class UWidget* JoinMenu = nullptr;
+    class UWidget* JoinMenu;
 	UPROPERTY(meta = (BindWidget))
-    class UWidget* MainMenu = nullptr;
+    class UWidget* MainMenu;
     
     // User Input
     UPROPERTY(meta = (BindWidget))
-    class UEditableTextBox* InputIPBox = nullptr;
+    class UPanelWidget* ServerList;
+
+	// Classes
+	TSubclassOf<UUserWidget> ServerRowClass;
 
 private:
 	UFUNCTION()
