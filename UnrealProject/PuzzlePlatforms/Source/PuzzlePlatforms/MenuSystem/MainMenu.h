@@ -24,6 +24,8 @@ public:
 
 	void SetServerList(TArray<FString> ServerNames);
 
+	void SetIndex(uint32 InIndex);
+
 protected:
     // Buttons
 	UPROPERTY(meta = (BindWidget))
@@ -63,4 +65,6 @@ private:
 	void ConnectToGame();
 	UFUNCTION()
 	void QuitGame();
+
+	TOptional<uint32> SelectedIndex;
 };

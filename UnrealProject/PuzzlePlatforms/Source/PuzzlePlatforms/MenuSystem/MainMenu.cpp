@@ -48,15 +48,23 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
     ensure(World);
 
     ServerList->ClearChildren();
-    
+
+    uint32 i = 0;
     for(const FString& ServerName : ServerNames)
     {
         UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
         ensure(ServerRow);
         ServerRow->ServerName->SetText(FText::FromString(ServerName));
+        ServerRow->Setup(this, i);
+        ++i;
         ServerList->AddChild(ServerRow);
     }
     
+}
+
+void UMainMenu::SetIndex(uint32 InIndex)
+{
+    SelectedIndex = InIndex;
 }
 
 void UMainMenu::Host()
@@ -71,7 +79,6 @@ void UMainMenu::OpenJoinMenu()
     {
         MenuSwitcher->SetActiveWidget(JoinMenu);
         if(ensure(MenuInterface)) MenuInterface->RefreshServerList();
-        
     }
         
 }
@@ -86,6 +93,14 @@ void UMainMenu::GoBack()
 
 void UMainMenu::ConnectToGame()
 {
+    if(SelectedIndex.IsSet())
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Selected index %d"), SelectedIndex.GetValue());
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Selected index not set"));
+    }
     if(MenuInterface != nullptr)
     {
         // if(!ensure(IPAddressField != nullptr)) return;
