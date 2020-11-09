@@ -37,6 +37,7 @@ void UPuzzlePlatformsGameInstance::Init()
             SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnCreateSessionComplete);
             SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnDestroySessionComplete);
             SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnFindSessionComplete);
+            SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformsGameInstance::OnJoinSessionComplete);
         }
     }
     else
@@ -60,18 +61,18 @@ void UPuzzlePlatformsGameInstance::Host()
     }
 }
 
-void UPuzzlePlatformsGameInstance::Join(const FString& Address)
+void UPuzzlePlatformsGameInstance::Join(uint32 Index)
 {
+    if(!SessionInterface.IsValid() || !SessionSearch.IsValid()) return;
+    
     if(MainMenuWidget != nullptr)
     {
-        MainMenuWidget->SetServerList({"Test1", "Test2"});
+        MainMenuWidget->TearDown();
     }
-    /*
-    APlayerController* PlayerController = GetFirstLocalPlayerController();
-    if(!ensure(PlayerController)) return;
 
-    PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
-    */
+    SessionInterface->JoinSession(0, SESSION_NAME, SessionSearch->SearchResults[Index]);
+    
+    
 }
 
 void UPuzzlePlatformsGameInstance::LoadMainMenu()
@@ -161,6 +162,25 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool bWasSuccessful)
         MainMenuWidget->SetServerList(ServerNames);
     }
     
+}
+
+void UPuzzlePlatformsGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
+    if(!SessionInterface.IsValid()) return;
+    if(Result == EOnJoinSessionCompleteResult::Success)
+    {
+        FString Address;
+        if(SessionInterface->GetResolvedConnectString(SessionName, Address))
+        {
+            
+            APlayerController* PlayerController = GetFirstLocalPlayerController();
+            if(!ensure(PlayerController)) return;
+
+            PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);
+            
+        }
+        
+    }
 }
 
 void UPuzzlePlatformsGameInstance::CreateSession()

@@ -24,7 +24,7 @@ public:
 	UFUNCTION(Exec)
 	void Host() override;
 	UFUNCTION(Exec)
-	void Join(const FString& Address) override;
+	void Join(uint32 Index) override;
 	UFUNCTION(BlueprintCallable)
 	void LoadMainMenu() override;
 
@@ -42,9 +42,10 @@ public:
 
 private:
 
-	void OnCreateSessionComplete(FName Sessionname, bool bSuccess);
-	void OnDestroySessionComplete(FName Sessionname, bool bSuccess);
+	void OnCreateSessionComplete(FName SessionName, bool bSuccess);
+	void OnDestroySessionComplete(FName SessionName, bool bSuccess);
 	void OnFindSessionComplete(bool bWasSuccessful);
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 	void CreateSession();
 	

@@ -93,19 +93,14 @@ void UMainMenu::GoBack()
 
 void UMainMenu::ConnectToGame()
 {
-    if(SelectedIndex.IsSet())
+    if(SelectedIndex.IsSet() && MenuInterface != nullptr)
     {
         UE_LOG(LogTemp, Warning, TEXT("Selected index %d"), SelectedIndex.GetValue());
+        MenuInterface->Join(SelectedIndex.GetValue());
     }
     else
     {
         UE_LOG(LogTemp, Warning, TEXT("Selected index not set"));
-    }
-    if(MenuInterface != nullptr)
-    {
-        // if(!ensure(IPAddressField != nullptr)) return;
-        // const FString& Address = IPAddressField->GetText().ToString();
-        MenuInterface->Join(" ");
     }
 }
 
