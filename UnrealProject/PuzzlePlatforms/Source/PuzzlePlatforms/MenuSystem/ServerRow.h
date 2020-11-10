@@ -16,7 +16,8 @@ class PUZZLEPLATFORMS_API UServerRow : public UUserWidget
 
 public:
     void Setup(class UMainMenu* Parent, uint32 Index);
-    
+    UPROPERTY(BlueprintReadOnly)
+    bool bSelected = false;
     UPROPERTY(meta = (BindWidget))
     class UTextBlock* ServerName;
     UPROPERTY(meta = (BindWidget))

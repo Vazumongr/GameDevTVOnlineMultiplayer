@@ -55,6 +55,7 @@ protected:
 	TSubclassOf<UUserWidget> ServerRowClass;
 
 private:
+	void UpdateServerRows();
 	UFUNCTION()
 	void Host();
 	UFUNCTION()

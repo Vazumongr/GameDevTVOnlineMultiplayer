@@ -154,7 +154,9 @@ void UPuzzlePlatformsGameInstance::OnFindSessionComplete(bool bWasSuccessful)
     if(bWasSuccessful && SessionSearch.IsValid() && MainMenuWidget != nullptr)
     {
         TArray<FString> ServerNames;
-        
+        ServerNames.Add("Test Server 1");
+        ServerNames.Add("Test Server 2");
+        ServerNames.Add("Test Server 3");
         for(const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
         {
             ServerNames.Add(SearchResult.GetSessionIdStr());

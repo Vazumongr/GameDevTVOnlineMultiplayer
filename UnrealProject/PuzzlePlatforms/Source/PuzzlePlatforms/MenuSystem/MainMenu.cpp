@@ -65,6 +65,20 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
 void UMainMenu::SetIndex(uint32 InIndex)
 {
     SelectedIndex = InIndex;
+    UpdateServerRows();
+}
+
+void UMainMenu::UpdateServerRows()
+{
+    TArray<UWidget*> ChildWidgets = ServerList->GetAllChildren();
+    
+    for(int32 i = 0; i< ServerList->GetChildrenCount(); ++i)
+    {
+        if(UServerRow* ServerRow = Cast<UServerRow>(ServerList->GetChildAt(i)))
+        {
+            ServerRow->bSelected = (SelectedIndex.IsSet() && SelectedIndex.GetValue() == i);
+        }
+    }
 }
 
 void UMainMenu::Host()
