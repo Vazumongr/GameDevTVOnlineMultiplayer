@@ -37,12 +37,13 @@ bool UMainMenu::Initialize()
 
     return true;
 }
+
 void UMainMenu::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
 {
     TearDown();
 }
 
-void UMainMenu::SetServerList(TArray<FString> ServerNames)
+void UMainMenu::SetServerList(TArray<FServerData> ServerNames)
 {
     UWorld* World = this->GetWorld();
     ensure(World);
@@ -50,11 +51,14 @@ void UMainMenu::SetServerList(TArray<FString> ServerNames)
     ServerList->ClearChildren();
 
     uint32 i = 0;
-    for(const FString& ServerName : ServerNames)
+    for(const FServerData& ServerData : ServerNames)
     {
         UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
         ensure(ServerRow);
-        ServerRow->ServerName->SetText(FText::FromString(ServerName));
+        ServerRow->ServerName->SetText(FText::FromString(ServerData.Name));
+        ServerRow->HostName->SetText(FText::FromString(ServerData.HostUserName));
+        const FText ConnectionFraction = FText::FromString(FString::Printf(TEXT("%d/%d"), ServerData.CurrentPlayers, ServerData.MaxPlayers));
+        ServerRow->ConnectionFraction->SetText(ConnectionFraction);
         ServerRow->Setup(this, i);
         ++i;
         ServerList->AddChild(ServerRow);

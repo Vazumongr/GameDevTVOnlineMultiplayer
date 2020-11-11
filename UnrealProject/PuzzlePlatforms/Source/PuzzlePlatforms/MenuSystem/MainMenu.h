@@ -8,6 +8,18 @@
 
 #include "MainMenu.generated.h"
 
+
+USTRUCT()
+struct FServerData
+{
+	GENERATED_BODY()
+
+	FString Name;
+	uint16 CurrentPlayers;
+	uint16 MaxPlayers;
+	FString HostUserName;
+};
+
 /**
  * 
  */
@@ -22,7 +34,7 @@ public:
 	
 	virtual void OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld) override;
 
-	void SetServerList(TArray<FString> ServerNames);
+	void SetServerList(TArray<FServerData> ServerNames);
 
 	void SetIndex(uint32 InIndex);
 
