@@ -136,7 +136,7 @@ void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bo
     UWorld* World = GetWorld();
     if(!ensure(World != nullptr)) return;
 
-    World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+    World->ServerTravel("/Game/Maps/Lobby?listen");
     UE_LOG(LogTemp, Warning, TEXT("%s"), *SessionInterface->GetNamedSession(SESSION_NAME)->GetSessionIdStr());
 }
 
