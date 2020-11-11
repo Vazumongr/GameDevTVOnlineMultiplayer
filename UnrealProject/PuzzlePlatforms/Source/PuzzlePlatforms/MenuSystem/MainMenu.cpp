@@ -5,6 +5,7 @@
 #include "Components/WidgetSwitcher.h"
 #include "PuzzlePlatforms/MenuSystem/ServerRow.h"
 #include "Components/TextBlock.h"
+#include "Components/EditableTextBox.h"
 
 UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
 {
@@ -88,7 +89,7 @@ void UMainMenu::UpdateServerRows()
 void UMainMenu::Host()
 {
     if(!ensure(MenuInterface)) return;
-    MenuInterface->Host();
+    MenuInterface->Host(ServerNameTextBox->GetText().ToString());
 }
 
 void UMainMenu::OpenJoinMenu()

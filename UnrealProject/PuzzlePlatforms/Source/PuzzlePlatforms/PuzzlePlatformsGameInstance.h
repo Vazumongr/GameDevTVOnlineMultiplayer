@@ -22,7 +22,7 @@ public:
 	virtual void Init();
 
 	UFUNCTION(Exec)
-	void Host() override;
+	void Host(FString ServerName) override;
 	UFUNCTION(Exec)
 	void Join(uint32 Index) override;
 	UFUNCTION(BlueprintCallable)
@@ -52,4 +52,5 @@ private:
 	class UMainMenu* MainMenuWidget;
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
+	FString DesiredServerName;
 };

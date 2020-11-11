@@ -50,6 +50,8 @@ protected:
 	class UButton* BackButton = nullptr;
 	UPROPERTY(meta = (BindWidget))
 	class UButton* QuitButton = nullptr;
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* ServerNameTextBox = nullptr;
 
     // Menus
 	UPROPERTY(meta = (BindWidget))
