@@ -19,6 +19,8 @@ public:
 	virtual void Logout(AController* Exiting) override;
 
 private:
+	virtual void Transition();
 	uint32 PlayerCount = 0;
+	FTimerHandle TimeoutHandle;
 	
 };

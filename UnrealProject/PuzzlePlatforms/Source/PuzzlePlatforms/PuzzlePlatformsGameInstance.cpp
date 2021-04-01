@@ -120,6 +120,12 @@ void UPuzzlePlatformsGameInstance::InGameLoadMenu()
     Menu->SetMenuInterface(this);
 }
 
+void UPuzzlePlatformsGameInstance::StartSession()
+{
+    if(SessionInterface.IsValid())
+        SessionInterface->StartSession(NAME_GameSession);
+}
+
 void UPuzzlePlatformsGameInstance::OnCreateSessionComplete(FName SessionName, bool bSuccess)
 {
     if(!bSuccess)
@@ -206,7 +212,7 @@ void UPuzzlePlatformsGameInstance::CreateSession()
     FOnlineSessionSettings SessionSettings;
     IOnlineSubsystem::Get()->GetSubsystemName() == "NULL" ? SessionSettings.bIsLANMatch = true : SessionSettings.bIsLANMatch = false;
     
-    SessionSettings.NumPublicConnections = 2;
+    SessionSettings.NumPublicConnections = 5;
     SessionSettings.bShouldAdvertise = true;
     SessionSettings.bUsesPresence = true;
     SessionSettings.Set(SERVER_NAME_SETTINGS_KEY, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
